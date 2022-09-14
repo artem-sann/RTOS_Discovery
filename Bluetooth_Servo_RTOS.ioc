@@ -1,5 +1,5 @@
 #MicroXplorer Configuration settings - do not modify
-FREERTOS.CountingSemaphores01=Red_LED,15,Dynamic,NULL;Blue_LED,15,Dynamic,NULL;Orange_LED,15,Dynamic,NULL;Green_LED,15,Dynamic,NULL
+FREERTOS.CountingSemaphores01=Red_LED,15,Static,Red_LEDControl;Blue_LED,15,Dynamic,NULL;Orange_LED,15,Dynamic,NULL;Green_LED,15,Dynamic,NULL
 FREERTOS.IPParameters=Tasks01,Queues01,configUSE_NEWLIB_REENTRANT,CountingSemaphores01
 FREERTOS.Queues01=Servo_Angle,50,uint8_t,0,Dynamic,NULL,NULL;From_COM_Port,100,uint8_t,0,Dynamic,NULL,NULL;To_COM_Port,100,uint8_t,0,Dynamic,NULL,NULL;From_Bluetooth,100,uint8_t,0,Dynamic,NULL,NULL;To_Bluetooth,100,uint8_t,0,Dynamic,NULL,NULL
 FREERTOS.Tasks01=Move_Servo_Task,0,128,Move_Servo,Default,NULL,Dynamic,NULL,NULL;Bluetooth_Read,-2,128,Bluetooth_Read_Task,Default,NULL,Dynamic,NULL,NULL;USB_Read,-2,128,USB_Read_Task,Default,NULL,Dynamic,NULL,NULL;USB_Send,-2,128,USB_Send_Task,Default,NULL,Dynamic,NULL,NULL;Bluetooth_Send,-2,128,Bluetooth_Send_Task,Default,NULL,Dynamic,NULL,NULL;LED_Control,-2,128,LED_Control_Task,Default,NULL,Dynamic,NULL,NULL;Button_read,-2,128,Button_read_Task,Default,NULL,Dynamic,NULL,NULL
@@ -84,7 +84,7 @@ NVIC.SavedPendsvIrqHandlerGenerated=true
 NVIC.SavedSvcallIrqHandlerGenerated=true
 NVIC.SavedSystickIrqHandlerGenerated=true
 NVIC.SysTick_IRQn=true\:15\:0\:true\:false\:false\:true\:true\:true\:true
-NVIC.TIM1_UP_TIM10_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
+NVIC.TIM1_UP_TIM10_IRQn=true\:5\:0\:false\:false\:true\:false\:false\:true\:true
 NVIC.TimeBase=TIM1_UP_TIM10_IRQn
 NVIC.TimeBaseIP=TIM1
 NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:false\:true\:false\:true
@@ -297,7 +297,7 @@ ProjectManager.StackSize=0x400
 ProjectManager.TargetToolchain=STM32CubeIDE
 ProjectManager.ToolChainLocation=
 ProjectManager.UnderRoot=true
-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_I2C1_Init-I2C1-false-HAL-true,4-MX_SPI1_Init-SPI1-false-HAL-true,5-MX_USB_DEVICE_Init-USB_DEVICE-false-HAL-false
+ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_I2C1_Init-I2C1-false-HAL-true,4-MX_SPI1_Init-SPI1-false-HAL-true,5-MX_USB_DEVICE_Init-USB_DEVICE-false-HAL-false,6-MX_TIM3_Init-TIM3-false-HAL-true,7-MX_USART2_UART_Init-USART2-false-HAL-true
 RCC.48MHZClocksFreq_Value=48000000
 RCC.AHBFreq_Value=96000000
 RCC.APB1CLKDivider=RCC_HCLK_DIV2

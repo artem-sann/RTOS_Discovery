@@ -61,6 +61,11 @@ osMessageQId From_COM_PortHandle;
 osMessageQId To_COM_PortHandle;
 osMessageQId From_BluetoothHandle;
 osMessageQId To_BluetoothHandle;
+osSemaphoreId Red_LEDHandle;
+osStaticSemaphoreDef_t Red_LEDControl;
+osSemaphoreId Blue_LEDHandle;
+osSemaphoreId Orange_LEDHandle;
+osSemaphoreId Green_LEDHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -141,8 +146,26 @@ int main(void)
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
+  /* Create the semaphores(s) */
+  /* definition and creation of Red_LED */
+  osSemaphoreStaticDef(Red_LED, &Red_LEDControl);
+  Red_LEDHandle = osSemaphoreCreate(osSemaphore(Red_LED), 15);
+
+  /* definition and creation of Blue_LED */
+  osSemaphoreDef(Blue_LED);
+  Blue_LEDHandle = osSemaphoreCreate(osSemaphore(Blue_LED), 15);
+
+  /* definition and creation of Orange_LED */
+  osSemaphoreDef(Orange_LED);
+  Orange_LEDHandle = osSemaphoreCreate(osSemaphore(Orange_LED), 15);
+
+  /* definition and creation of Green_LED */
+  osSemaphoreDef(Green_LED);
+  Green_LEDHandle = osSemaphoreCreate(osSemaphore(Green_LED), 15);
+
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
+  
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -602,7 +625,8 @@ void Bluetooth_Send_Task(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+
+    osDelay(10);
   }
   /* USER CODE END Bluetooth_Send_Task */
 }
@@ -620,10 +644,17 @@ void LED_Control_Task(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+        /*
+      if (xSemaphoreTake(Red_LEDHandle, portTICK_PERIOD_MS*5)) {
+          HAL_GPIO_TogglePin(GPIOD, LD5_Pin); //Red LED
+          osDelay(200);
+      }
+         */
+
 
       HAL_GPIO_WritePin(GPIOD, LD3_Pin, SET); //Orange LED
       HAL_GPIO_WritePin(GPIOD, LD4_Pin, SET); //Green LED
-      HAL_GPIO_WritePin(GPIOD, LD5_Pin, SET); //Red LED
+      //HAL_GPIO_WritePin(GPIOD, LD5_Pin, SET); //Red LED
       HAL_GPIO_WritePin(GPIOD, LD6_Pin, SET); //Blue LED
       osDelay(100);
   }
