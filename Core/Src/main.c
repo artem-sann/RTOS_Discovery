@@ -20,6 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_device.h"
+#include "usbd_cdc_if.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -67,6 +68,8 @@ osSemaphoreId Blue_LEDHandle;
 osSemaphoreId Orange_LEDHandle;
 osSemaphoreId Green_LEDHandle;
 /* USER CODE BEGIN PV */
+char str_rx[21];
+char str_tx[21];
 
 /* USER CODE END PV */
 
@@ -112,7 +115,7 @@ int Set_Servo_Angle(uint8_t Angle) // from 0 to 180 degrees
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+    //str_rx[0] = '0';
 
   /* USER CODE END 1 */
 
@@ -199,7 +202,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of Move_Servo_Task */
-  osThreadDef(Move_Servo_Task, Move_Servo, osPriorityNormal, 0, 128);
+  osThreadDef(Move_Servo_Task, Move_Servo, osPriorityLow, 0, 128);
   Move_Servo_TaskHandle = osThreadCreate(osThread(Move_Servo_Task), NULL);
 
   /* definition and creation of Bluetooth_Read */
@@ -207,7 +210,7 @@ int main(void)
   Bluetooth_ReadHandle = osThreadCreate(osThread(Bluetooth_Read), NULL);
 
   /* definition and creation of USB_Read */
-  osThreadDef(USB_Read, USB_Read_Task, osPriorityLow, 0, 128);
+  osThreadDef(USB_Read, USB_Read_Task, osPriorityNormal, 0, 128);
   USB_ReadHandle = osThreadCreate(osThread(USB_Read), NULL);
 
   /* definition and creation of USB_Send */
@@ -544,7 +547,7 @@ static void MX_GPIO_Init(void)
 void Move_Servo(void const * argument)
 {
   /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
+
   /* USER CODE BEGIN 5 */
 
 
@@ -583,13 +586,21 @@ void Bluetooth_Read_Task(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_USB_Read_Task */
+
 void USB_Read_Task(void const * argument)
 {
   /* USER CODE BEGIN USB_Read_Task */
+  MX_USB_DEVICE_Init();
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+
+          for (int j = 0; j < 21; j++) {
+              str_tx[j] = str_rx[j];
+          }
+          osDelay(1);
+
+
   }
   /* USER CODE END USB_Read_Task */
 }
@@ -604,10 +615,12 @@ void USB_Read_Task(void const * argument)
 void USB_Send_Task(void const * argument)
 {
   /* USER CODE BEGIN USB_Send_Task */
+  sprintf(str_tx,"USB tttttttttttttt\r\n");
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+      CDC_Transmit_FS((unsigned char*)str_tx, strlen(str_tx));
+      osDelay(500);
   }
   /* USER CODE END USB_Send_Task */
 }
